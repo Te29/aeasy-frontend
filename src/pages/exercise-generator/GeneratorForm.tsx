@@ -9,91 +9,17 @@ import {
 import { useState } from 'react';
 import { Button } from '../../components/ui/Button';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import type { GeneratorStatus } from './ExerciseGeneratorPage';
+import type { GeneratorStatus } from '../../types';
 import axios from 'axios';
+import { GENERATOR_FORM_OPTIONS, BUTTON_CONFIG } from '../../constants/index';
+import type { GeminiResponse } from '../../types';
 
-type FormKeys =
-  | 'grade'
-  | 'difficulty'
-  | 'includeAnswerSheet'
-  | 'includeAnswerKey';
-
-type GeneratorFormProps = {
+interface GeneratorFormProps {
   status: GeneratorStatus;
   setStatus: React.Dispatch<React.SetStateAction<GeneratorStatus>>;
-};
-
-type ButtonConfig = {
-  text: string;
-  variant: 'primary' | 'secondary' | 'disabled';
-  disabled: boolean;
-};
-
-const buttonConfig: Record<GeneratorStatus, ButtonConfig> = {
-  idle: { text: 'Generate', variant: 'primary', disabled: false },
-  generating: { text: 'Generating...', variant: 'disabled', disabled: true },
-  success: { text: 'Generate Again', variant: 'primary', disabled: false },
-  error: { text: 'Try Again', variant: 'primary', disabled: false },
-};
-
-const radioGroups: {
-  name: FormKeys;
-  legend: string;
-  options: {
-    label: string;
-    value: string | boolean;
-  }[];
-}[] = [
-  {
-    name: 'grade',
-    legend: 'Grade Level',
-    options: [
-      {
-        label: '4-6',
-        value: '4-6',
-      },
-      {
-        label: '7-9',
-        value: '7-9',
-      },
-      {
-        label: '10-12',
-        value: '10-12',
-      },
-    ],
-  },
-  {
-    name: 'difficulty',
-    legend: 'Difficulty',
-    options: [
-      { label: 'Easy', value: 'easy' },
-      { label: 'Medium', value: 'medium' },
-      { label: 'Hard', value: 'difficult' },
-    ],
-  },
-  {
-    name: 'includeAnswerSheet',
-    legend: 'Include Answer Sheet',
-    options: [
-      { label: 'Yes', value: true },
-      { label: 'No', value: false },
-    ],
-  },
-  {
-    name: 'includeAnswerKey',
-    legend: 'Include Answer Key',
-    options: [
-      { label: 'Yes', value: true },
-      { label: 'No', value: false },
-    ],
-  },
-];
+}
 
 const API_URL = import.meta.env.VITE_API_URL;
-
-interface GeminiResponse {
-  text: string;
-}
 
 export function GeneratorForm({ status, setStatus }: GeneratorFormProps) {
   const [form, setForm] = useState({
@@ -136,7 +62,7 @@ export function GeneratorForm({ status, setStatus }: GeneratorFormProps) {
           method="post"
           action="#"
         >
-          {radioGroups.map((group) => (
+          {GENERATOR_FORM_OPTIONS.map((group) => (
             <Fieldset key={group.name} className="flex flex-col gap-4">
               <Legend className="text-md font-bold text-gray-900">
                 {group.legend}
@@ -168,11 +94,11 @@ export function GeneratorForm({ status, setStatus }: GeneratorFormProps) {
           ))}
           <Button
             type="submit"
-            variant={buttonConfig[status].variant}
-            disabled={buttonConfig[status].disabled}
+            variant={BUTTON_CONFIG[status].variant}
+            disabled={BUTTON_CONFIG[status].disabled}
             className="w-1/2 mt-10 "
           >
-            {buttonConfig[status].text}
+            {BUTTON_CONFIG[status].text}
           </Button>
         </form>
 

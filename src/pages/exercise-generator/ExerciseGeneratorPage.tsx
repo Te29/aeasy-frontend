@@ -3,8 +3,7 @@ import { FeatureCardTitle } from '../../components/layout/FeatureCardTitle';
 import { GeneratorForm } from './GeneratorForm';
 import { useState, useRef, useEffect } from 'react';
 import { GenerationResult } from './GenerationResult';
-
-export type GeneratorStatus = 'idle' | 'generating' | 'success' | 'error';
+import type { GeneratorStatus } from '../../types';
 
 export function ExerciseGeneratorPage() {
   const [status, setStatus] = useState<GeneratorStatus>('idle');
