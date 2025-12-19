@@ -88,7 +88,6 @@ export const GenerationResult = forwardRef<
                 <Button
                   variant="secondary"
                   onClick={() => setShowPreview(!showPreview)}
-                  className="w-full sm:w-auto"
                 >
                   {showPreview ? 'Hide Preview' : 'Preview Worksheet'}
                 </Button>
